@@ -1,0 +1,51 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <malloc.h>
+#define N 100
+#pragma warning(disable : 4996)
+int main() {
+	FILE* In;
+	/*Проверка существования файла*/
+	if ((In = fopen("input.txt", "rt")) == NULL) {
+		printf("File not founded");
+		return 0;
+	}
+	int digit;
+	fscanf_s(In, "%d", &digit);
+	fclose(In);
+	/*Операция по вычислению и выводу суммы чисел в десятичном представлении*/
+	int digit1 = digit, digit2 = digit, length = 0, sum = 0, *arr, i = 0, j;
+	arr = malloc(N * sizeof(int));
+	while (digit1 > 0) { 
+		length++;
+		digit1 /= 10;
+	}
+	while (length > 0) {
+		sum += digit % 10;
+		digit /= 10;
+		length--;
+	}
+	printf("%d\n", sum);
+	/*Двоичное представление*/
+	while (digit2 > 1) {
+			arr[i] = digit2 % 2;
+		digit2 /= 2;
+		i++;
+	}
+	arr[i] = 1;
+	j = i;
+	for (i; i >= 0; i--) {
+		printf("%d", arr[i]);
+	}
+	FILE* Ou;
+	if ((Ou = fopen("output.txt", "w")) == NULL) {
+		printf("File not founded");
+		return 0;
+	}
+	for (j; j >= 0; j--) {
+		fprintf(Ou, "%d", arr[j]);
+	}
+	free(arr);
+	fclose(Ou);
+	return 0;
+}
